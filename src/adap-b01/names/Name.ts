@@ -9,26 +9,27 @@ export class Name {
     throw new Error("needs implementation");
   }
 
-  public asNameString(delimiter: string = this.delimiter): string {
-    return "Test";
-    throw new Error("needs implementation");
-  }
+    /** Returns human-readable representation of Name instance */
+    public asNameString(delimiter: string = this.delimiter): string {
+        throw new Error("needs implementation");
+    }
 
-  public getComponent(i: number): string {
-    throw new Error("needs implementation");
-  }
+    public getComponent(i: number): string {
+        throw new Error("needs implementation");
+    }
 
   public setComponent(i: number, c: string): void {
     throw new Error("needs implementation");
   }
 
-  public getNoComponents(): number {
-    throw new Error("needs implementation");
-  }
+     /** Returns number of components in Name instance */
+     public getNoComponents(): number {
+        throw new Error("needs implementation");
+    }
 
-  public insert(i: number, c: string): void {
-    throw new Error("needs implementation");
-  }
+    public insert(i: number, c: string): void {
+        throw new Error("needs implementation");
+    }
 
   public append(c: string): void {
     throw new Error("needs implementation");
