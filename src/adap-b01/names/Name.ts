@@ -10,7 +10,7 @@ export class Name {
     if (delimiter) {
       this.delimiter = delimiter;
     }
-    this.components = other
+    this.components = [...other];
   }
 
   /** Returns human-readable representation of Name instance */
@@ -20,8 +20,12 @@ export class Name {
     for (let i = 0; i < this.components.length; i++) {
       let currentComponent: string = this.components[i]
       for (let j = 0; j < currentComponent.length; j++) {
-        //add escape character befor delimiter
+        //add escape character before delimiter
         if (currentComponent[j] == this.delimiter) {
+          nameString += this.ESCAPE_CHARACTER + currentComponent[j]
+        }
+        //add escape charater befor escape character
+        else if (currentComponent[j] == this.ESCAPE_CHARACTER) {
           nameString += this.ESCAPE_CHARACTER + currentComponent[j]
         }
         else {
