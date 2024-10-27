@@ -24,7 +24,7 @@ export class Name {
         if (currentComponent[j] == this.delimiter) {
           nameString += this.ESCAPE_CHARACTER + currentComponent[j]
         }
-        //add escape charater befor escape character
+        //add escape charater before escape character
         else if (currentComponent[j] == this.ESCAPE_CHARACTER) {
           nameString += this.ESCAPE_CHARACTER + currentComponent[j]
         }
