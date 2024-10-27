@@ -24,6 +24,14 @@ describe("Delimiter function tests", () => {
   });
 });
 
+describe("Escape Charater tests", () => {
+  it("test insert", () => {
+    let n: Name = new Name(["oss", "fau", "de#global"], '#');
+    n.insert(1, "cs");
+    expect(n.asNameString()).toBe("oss#cs#fau#de\\#global");
+  });
+});
+
 describe("Escape character extravaganza", () => {
   it("test escape and delimiter boundary conditions", () => {
     // Original name string = "oss.cs.fau.de"
