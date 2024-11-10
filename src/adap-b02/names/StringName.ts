@@ -60,7 +60,19 @@ export class StringName implements Name {
   }
 
   public asDataString(): string {
-    return this.name;
+    let dataString = "";
+    //ads ESCAPE_CHARACTER bevore other ESCAPE_CHARACTERs
+    for (let i = 0; i < this.name.length; i++) {
+      if (
+        this.name.charAt(i) === ESCAPE_CHARACTER &&
+        i < this.name.length - 1 &&
+        this.name.charAt(i + 1) != this.delimiter
+      ) {
+        dataString += ESCAPE_CHARACTER;
+      }
+      dataString += this.name.charAt(i);
+    }
+    return dataString;
   }
 
   public isEmpty(): boolean {
@@ -76,7 +88,7 @@ export class StringName implements Name {
   }
 
   public getComponent(x: number): string {
-    const components = this.name.split(this.delimiter);
+    const components = this.splitEscaped(this.delimiter);
     if (x < 0 || x >= components.length) {
       throw new Error("Invalid x");
     }
@@ -84,7 +96,7 @@ export class StringName implements Name {
   }
 
   public setComponent(n: number, c: string): void {
-    const components = this.name.split(this.delimiter);
+    const components = this.splitEscaped(this.delimiter);
     if (n < 0 || n >= components.length) {
       throw new Error("Invalid n");
     }
@@ -93,7 +105,7 @@ export class StringName implements Name {
   }
 
   public insert(n: number, c: string): void {
-    const components = this.name.split(this.delimiter);
+    const components = this.splitEscaped(this.delimiter);
     if (n < 0 || n > components.length) {
       throw new Error("Invalid n");
     }
@@ -103,15 +115,14 @@ export class StringName implements Name {
   }
 
   public append(c: string): void {
-    if (this.length > 0) {
-      this.name += this.delimiter;
-    }
-    this.name += c;
+    const components = this.splitEscaped(this.delimiter);
+    components.push(c);
+    this.name = components.join(this.delimiter);
     this.length += 1;
   }
 
   public remove(n: number): void {
-    const components = this.name.split(this.delimiter);
+    const components = this.splitEscaped(this.delimiter);
     if (n < 0 || n >= components.length) {
       throw new Error("Invalid n");
     }
@@ -127,5 +138,28 @@ export class StringName implements Name {
     for (let i = 0; i < other.getNoComponents(); i++) {
       this.append(other.getComponent(i));
     }
+  }
+
+  private splitEscaped(delimiter: string): string[] {
+    const components: string[] = [];
+    let current = "";
+    let escaped = false;
+
+    for (let i = 0; i < this.name.length; i++) {
+      const char = this.name.charAt(i);
+      if (escaped) {
+        current += char;
+        escaped = false;
+      } else if (char === ESCAPE_CHARACTER) {
+        escaped = true;
+      } else if (char === delimiter) {
+        components.push(current);
+        current = "";
+      } else {
+        current += char;
+      }
+    }
+    components.push(current);
+    return components;
   }
 }

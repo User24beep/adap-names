@@ -62,7 +62,6 @@ describe("AsString tests", () => {
   it("tests asString with escape chars", () => {
     let n: Name = new StringName("cs.fau\\.oss.de", ".");
     let an: Name = new StringArrayName(["cs", "fau.oss", "de"], ".");
-    console.log(n);
     expect(n.asString("#")).toBe(an.asString("#"));
   });
 });
@@ -71,6 +70,16 @@ describe("AsDataString test1", () => {
   it("tests asDatastring with escape chars", () => {
     let n: Name = new StringName("fau\\.oss.cs.de", ".");
     let an: Name = new StringArrayName(["fau.oss", "cs", "de"], ".");
+    expect(n.asDataString()).toBe(an.asDataString());
+  });
+});
+
+describe("append Test Advanced", () => {
+  it("tests append with escape chars", () => {
+    let n: Name = new StringName("oss.cs.fau.de", ".");
+    let an: Name = new StringArrayName(["oss", "cs", "fau", "de"], ".");
+    n.append("test\\test");
+    an.append("test\\test");
     expect(n.asDataString()).toBe(an.asDataString());
   });
 });
