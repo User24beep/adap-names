@@ -42,7 +42,7 @@ describe("Basic StringArrayName function tests", () => {
 
 describe("Delimiter function tests", () => {
   it("test insert", () => {
-    let n: Name = new StringName("oss#fau#de", '#');
+    let n: Name = new StringName("oss#fau#de", "#");
     n.insert(1, "cs");
     expect(n.asString()).toBe("oss#cs#fau#de");
   });
@@ -50,10 +50,27 @@ describe("Delimiter function tests", () => {
 
 describe("Escape character extravaganza", () => {
   it("test escape and delimiter boundary conditions", () => {
-    let n: Name = new StringName("oss.cs.fau.de", '#');
+    let n: Name = new StringName("oss.cs.fau.de", "#");
     expect(n.getNoComponents()).toBe(1);
     expect(n.asString()).toBe("oss.cs.fau.de");
     n.append("people");
     expect(n.asString()).toBe("oss.cs.fau.de#people");
+  });
+});
+
+describe("AsString tests", () => {
+  it("tests asString with escape chars", () => {
+    let n: Name = new StringName("cs.fau\\.oss.de", ".");
+    let an: Name = new StringArrayName(["cs", "fau.oss", "de"], ".");
+    console.log(n);
+    expect(n.asString("#")).toBe(an.asString("#"));
+  });
+});
+
+describe("AsDataString test1", () => {
+  it("tests asDatastring with escape chars", () => {
+    let n: Name = new StringName("fau\\.oss.cs.de", ".");
+    let an: Name = new StringArrayName(["fau.oss", "cs", "de"], ".");
+    expect(n.asDataString()).toBe(an.asDataString());
   });
 });
