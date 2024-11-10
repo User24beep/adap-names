@@ -1,3 +1,7 @@
+import { Equality } from "../common/Equality";
+import { Cloneable } from "../common/Cloneable";
+import { Printable } from "../common/Printable";
+
 export const DEFAULT_DELIMITER: string = '.';
 export const ESCAPE_CHARACTER = '\\';
 
@@ -13,40 +17,36 @@ export const ESCAPE_CHARACTER = '\\';
  * "///" is a name with four empty components and the delimiter character '/'.
  * "Oh\.\.\." is a name with one component, if the delimiter character is '.'.
  */
-export interface Name {
+export interface Name extends Equality, Cloneable, Printable {
 
     /**
-     * Returns a human-readable representation of the Name instance using user-set control characters
-     * Control characters are not escaped (creating a human-readable string)
-     * Users can vary the delimiter character to be used
+     * Returns true, if number of components == 0; else false
      */
-    asString(delimiter?: string): string;
-
-    /** 
-     * Returns a machine-readable representation of Name instance using default control characters
-     * Machine-readable means that from a data string, a Name can be parsed back in
-     * The control characters in the data string are the default characters
-     */
-    asDataString(): string;
-
     isEmpty(): boolean;
 
+    /** 
+     * Returns delimiter character used by Name instances
+     */
     getDelimiterCharacter(): string;
 
-    /** Returns number of components in Name instance */
+    /** 
+     * Returns number of components in Name instance
+     */
     getNoComponents(): number;
 
     getComponent(i: number): string;
 
-    /** Assumes that new Name component c is properly masked */
+    /** Expects that new Name component c is properly masked */
     setComponent(i: number, c: string): void;
 
-    /** Assumes that new Name component c is properly masked */
+    /** Expects that new Name component c is properly masked */
     insert(i: number, c: string): void;
 
-    /** Assumes that new Name component c is properly masked */
+    /** Expects that new Name component c is properly masked */
     append(c: string): void;
 
     remove(i: number): void;
+    
+    concat(other: Name): void;
     
 }

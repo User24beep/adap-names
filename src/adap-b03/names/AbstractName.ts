@@ -1,11 +1,10 @@
 import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
 
-export class StringArrayName implements Name {
+export abstract class AbstractName implements Name {
 
-    protected components: string[] = [];
     protected delimiter: string = DEFAULT_DELIMITER;
 
-    constructor(other: string[], delimiter?: string) {
+    constructor(delimiter: string = DEFAULT_DELIMITER) {
         throw new Error("needs implementation");
     }
 
@@ -13,7 +12,23 @@ export class StringArrayName implements Name {
         throw new Error("needs implementation");
     }
 
+    public toString(): string {
+        throw new Error("needs implementation");
+    }
+
     public asDataString(): string {
+        throw new Error("needs implementation");
+    }
+
+    public isEqual(other: Name): boolean {
+        throw new Error("needs implementation");
+    }
+
+    public getHashCode(): number {
+        throw new Error("needs implementation");
+    }
+
+    public clone(): Name {
         throw new Error("needs implementation");
     }
 
@@ -25,29 +40,14 @@ export class StringArrayName implements Name {
         throw new Error("needs implementation");
     }
 
-    public getNoComponents(): number {
-        throw new Error("needs implementation");
-    }
+    abstract getNoComponents(): number;
 
-    public getComponent(i: number): string {
-        throw new Error("needs implementation");
-    }
+    abstract getComponent(i: number): string;
+    abstract setComponent(i: number, c: string): void;
 
-    public setComponent(i: number, c: string): void {
-        throw new Error("needs implementation");
-    }
-
-    public insert(i: number, c: string): void {
-        throw new Error("needs implementation");
-    }
-
-    public append(c: string): void {
-        throw new Error("needs implementation");
-    }
-
-    public remove(i: number): void {
-        throw new Error("needs implementation");
-    }
+    abstract insert(i: number, c: string): void;
+    abstract append(c: string): void;
+    abstract remove(i: number): void;
 
     public concat(other: Name): void {
         throw new Error("needs implementation");
