@@ -33,28 +33,23 @@ export class StringName implements Name {
   }
 
   public asString(delimiter: string = this.delimiter): string {
-    let nameString = "";
-    //remove escape characters from string
+    //easier to edit in-place in this case
+    let nameString: string = this.name;
     let escaped: boolean = false;
+    //loops over name and removes Escape character if possible
     for (let i = 0; i < this.name.length; i++) {
-      if (escaped) {
-        //should be either delimiter or escape character
-        nameString += this.name.charAt(i);
-        escaped = false;
+      if (this.name[i] == ESCAPE_CHARACTER) {
+        escaped = !escaped;
       } else {
-        //Found delimiter that is not escaped
-        if (this.name.charAt(i) == this.delimiter) {
-          nameString += delimiter;
-          //Found escape character that is not escaped
-        } else if (this.name.charAt(i) == ESCAPE_CHARACTER) {
-          escaped = true;
-        } else {
-          nameString += this.name.charAt(i);
+        if (this.name[i] === this.getDelimiterCharacter()) {
+          if (!escaped) {
+            //found real delimiter
+            nameString =
+              nameString.slice(0, i) + delimiter + nameString.slice(i + 1);
+          }
         }
+        escaped = false;
       }
-    }
-    if (escaped) {
-      nameString += ESCAPE_CHARACTER;
     }
     return nameString;
   }
