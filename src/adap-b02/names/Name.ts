@@ -1,5 +1,7 @@
-export const DEFAULT_DELIMITER: string = ".";
-export const ESCAPE_CHARACTER = "\\";
+import { Printable } from "../common/Printable";
+
+export const DEFAULT_DELIMITER: string = '.';
+export const ESCAPE_CHARACTER = '\\';
 
 /**
  * A name is a sequence of string components separated by a delimiter character.
@@ -13,13 +15,14 @@ export const ESCAPE_CHARACTER = "\\";
  * "///" is a name with four empty components and the delimiter character '/'.
  * "Oh\.\.\." is a name with one component, if the delimiter character is '.'.
  */
-export interface Name {
-  /**
-   * Returns a human-readable representation of the Name instance using user-set control characters
-   * Control characters are not escaped (creating a human-readable string)
-   * Users can vary the delimiter character to be used
-   */
-  asString(delimiter?: string): string;
+export interface Name extends Printable {
+
+    /**
+     * Returns a human-readable representation of the Name instance using user-set control characters
+     * Control characters are not escaped (creating a human-readable string)
+     * Users can vary the delimiter character to be used
+     */
+    asString(delimiter?: string): string;
 
   /**
    * Returns a machine-readable representation of Name instance using default control characters
@@ -48,3 +51,4 @@ export interface Name {
 
   remove(i: number): void;
 }
+
