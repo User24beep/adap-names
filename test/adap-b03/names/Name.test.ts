@@ -84,3 +84,12 @@ describe("append Test Advanced", () => {
     expect(n.asString()).toBe(an.asString());
   });
 });
+
+describe("Test concat", () => {
+  it("Test concat!!", () => {
+    let n: Name = new StringName("oss.cs.fau.de", ".");
+    let an: Name = new StringArrayName(["oss", "cs", "fau", "de"], ".");
+    n.concat(an);
+    expect(n.asDataString()).toBe("oss.cs.fau.de.oss.cs.fau.de");
+  });
+});
