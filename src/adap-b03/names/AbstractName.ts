@@ -79,20 +79,6 @@ export abstract class AbstractName implements Name {
 
   //helper-function for asString
   private unescapeComponent(component: string): string {
-    let unescapedComponent = "";
-    let isEscaping = false;
-    for (let i = 0; i < component.length; i++) {
-      let char = component[i];
-
-      if (isEscaping) {
-        unescapedComponent += char;
-        isEscaping = false;
-      } else if (char === ESCAPE_CHARACTER) {
-        isEscaping = true;
-      } else {
-        unescapedComponent += char;
-      }
-    }
-    return unescapedComponent;
+    return component.replaceAll(ESCAPE_CHARACTER, "");
   }
 }
