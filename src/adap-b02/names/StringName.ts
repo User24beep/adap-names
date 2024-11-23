@@ -1,10 +1,11 @@
-import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
+import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
+import { Name } from "./Name";
 
 export class StringName implements Name {
-  protected delimiter: string = DEFAULT_DELIMITER;
 
-  protected name: string = "";
-  protected length: number = 0;
+    protected delimiter: string = DEFAULT_DELIMITER;
+    protected name: string = "";
+    protected noComponents: number = 0;
 
   constructor(other: string, delimiter?: string) {
     if (delimiter) {
@@ -70,13 +71,13 @@ export class StringName implements Name {
     return dataString;
   }
 
-  public isEmpty(): boolean {
-    return this.length == 0;
-  }
+    public getDelimiterCharacter(): string {
+        throw new Error("needs implementation");
+    }
 
-  public getDelimiterCharacter(): string {
-    return this.delimiter;
-  }
+    public isEmpty(): boolean {
+        throw new Error("needs implementation");
+    }
 
   public getNoComponents(): number {
     return this.length;

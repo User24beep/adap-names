@@ -2,16 +2,14 @@ import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
 
-export class StringArrayName extends AbstractName {
+export class StringName extends AbstractName {
 
-    protected components: string[] = [];
+    protected name: string = "";
+    protected noComponents: number = 0;
 
-    constructor(other: string[], delimiter?: string) {
+    constructor(other: string, delimiter?: string) {
         super();
-        if (delimiter) {
-            this.delimiter = delimiter;
-        }
-        this.components = [...other];
+        throw new Error("needs implementation");
     }
 
     public clone(): Name {
@@ -73,4 +71,5 @@ export class StringArrayName extends AbstractName {
     public concat(other: Name): void {
         throw new Error("needs implementation");
     }
+
 }

@@ -8,10 +8,7 @@ export class StringArrayName extends AbstractName {
 
     constructor(other: string[], delimiter?: string) {
         super();
-        if (delimiter) {
-            this.delimiter = delimiter;
-        }
-        this.components = [...other];
+        throw new Error("needs implementation");
     }
 
     public clone(): Name {
