@@ -1,3 +1,4 @@
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 
@@ -53,5 +54,11 @@ export abstract class AbstractName implements Name {
     public concat(other: Name): void {
         throw new Error("needs implementation");
     }
+
+    protected assertIsValidDelChar(d: string) {
+        let condition: boolean = (d.length == 1);
+        IllegalArgumentException.assertCondition(condition, "invalid delimiter character");
+    }
+
 
 }
