@@ -87,7 +87,6 @@ export abstract class AbstractName implements Name {
   }
 
   public getDelimiterCharacter(): string {
-    this.assertClassInvariants();
     return this.delimiter;
   }
 
@@ -157,6 +156,9 @@ export abstract class AbstractName implements Name {
       } else {
         if (currentChar == this.getDelimiterCharacter()) {
           throw new IllegalArgumentException("c is not a valid component");
+        }
+        if (currentChar == ESCAPE_CHARACTER) {
+          escaped = true;
         }
       }
     }
