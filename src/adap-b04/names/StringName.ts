@@ -2,7 +2,7 @@ import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
+import { MethodFailedException } from "../common/MethodFailedException";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 
 export class StringName extends AbstractName {
@@ -191,7 +191,7 @@ export class StringName extends AbstractName {
     if (!condition) {
       this.name = backup.name;
       this.delimiter = backup.delimiter;
-      throw new MethodFailureException(message);
+      throw new MethodFailedException(message);
     }
     this.assertClassInvariants();
   }
