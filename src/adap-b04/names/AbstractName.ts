@@ -1,6 +1,6 @@
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
+import { MethodFailedException } from "../common/MethodFailedException";
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 
@@ -29,8 +29,8 @@ export abstract class AbstractName implements Name {
       components.push(this.unescapeComponent(this.getComponent(i)));
     }
     const asStringResult = components.join(delimiter);
-    MethodFailureException.assertIsNotNullOrUndefined(asStringResult);
-    MethodFailureException.assertCondition(
+    MethodFailedException.assertIsNotNullOrUndefined(asStringResult);
+    MethodFailedException.assertCondition(
       typeof asStringResult == "string",
       "Result has to be string"
     );
@@ -40,8 +40,8 @@ export abstract class AbstractName implements Name {
   public toString(): string {
     this.assertClassInvariants();
     const toStringResult = this.asDataString();
-    MethodFailureException.assertIsNotNullOrUndefined(toStringResult);
-    MethodFailureException.assertCondition(
+    MethodFailedException.assertIsNotNullOrUndefined(toStringResult);
+    MethodFailedException.assertCondition(
       typeof toStringResult == "string",
       "Result has to be string"
     );
@@ -55,8 +55,8 @@ export abstract class AbstractName implements Name {
       components.push(this.getComponent(i));
     }
     const asDataStringResult = components.join(this.getDelimiterCharacter());
-    MethodFailureException.assertIsNotNullOrUndefined(asDataStringResult);
-    MethodFailureException.assertCondition(
+    MethodFailedException.assertIsNotNullOrUndefined(asDataStringResult);
+    MethodFailedException.assertCondition(
       typeof asDataStringResult == "string",
       "Result has to be string"
     );
@@ -170,9 +170,9 @@ export abstract class AbstractName implements Name {
   }
 
   protected assertCloneIsCopyOfOriginalAsPostCondition(clone: Name) {
-    MethodFailureException.assertIsNotNullOrUndefined(clone);
+    MethodFailedException.assertIsNotNullOrUndefined(clone);
     if (!this.isEqual(clone)) {
-      throw new MethodFailureException("clone failed");
+      throw new MethodFailedException("clone failed");
     }
   }
 }
