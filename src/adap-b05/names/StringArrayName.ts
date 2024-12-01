@@ -1,69 +1,118 @@
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
+import { InvalidStateException } from "../common/InvalidStateException";
+import { MethodFailedException } from "../common/MethodFailedException";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
 
 export class StringArrayName extends AbstractName {
+  protected components: string[] = [];
 
-    protected components: string[] = [];
-
-    constructor(other: string[], delimiter?: string) {
-        super();
-        throw new Error("needs implementation or deletion");
+  constructor(other: string[], delimiter?: string) {
+    super();
+    for (let i = 0; i < other.length; i++) {
+      this.assertIsValidComponent(other[i]);
     }
-
-    public clone(): Name {
-        throw new Error("needs implementation or deletion");
+    if (delimiter) {
+      this.assertIsValidDelChar(delimiter);
+      this.delimiter = delimiter;
     }
+    this.components = [...other];
+    this.assertClassInvariants();
+  }
 
-    public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
-    }
+  public getNoComponents(): number {
+    return this.components.length;
+  }
 
-    public asDataString(): string {
-        throw new Error("needs implementation or deletion");
-    }
+  public getComponent(i: number): string {
+    this.assertIsValidIndex(i);
+    this.assertClassInvariants();
+    return this.components[i];
+  }
 
-    public isEqual(other: Name): boolean {
-        throw new Error("needs implementation or deletion");
-    }
+  public setComponent(i: number, c: string) {
+    this.assertIsValidIndex(i);
+    this.assertIsValidComponent(c);
+    this.assertClassInvariants();
+    const backup = this.clone() as StringArrayName;
+    this.components[i] = c;
+    this.assertPostconditionAndDoBackup(
+      this.components[i] == c &&
+        this.getNoComponents() == backup.getNoComponents() + 1,
+      "setComponent failed",
+      backup
+    );
+  }
 
-    public getHashCode(): number {
-        throw new Error("needs implementation or deletion");
-    }
+  public insert(i: number, c: string) {
+    this.assertIsValidInsertIndex(i);
+    this.assertIsValidComponent(c);
+    this.assertClassInvariants();
+    const backup = this.clone() as StringArrayName;
+    this.components.splice(i, 0, c);
+    this.assertPostconditionAndDoBackup(
+      this.components[i] == c &&
+        this.getNoComponents() == backup.getNoComponents() + 1,
+      "insert failed",
+      backup
+    );
+  }
 
-    public isEmpty(): boolean {
-        throw new Error("needs implementation or deletion");
-    }
+  public append(c: string) {
+    this.assertIsValidComponent(c);
+    this.assertClassInvariants();
+    const backup = this.clone() as StringArrayName;
+    this.components.push(c);
+    this.assertPostconditionAndDoBackup(
+      this.components[this.getNoComponents() - 1] == c &&
+        this.getNoComponents() == backup.getNoComponents() + 1,
+      "append failed",
+      backup
+    );
+  }
 
-    public getDelimiterCharacter(): string {
-        throw new Error("needs implementation or deletion");
-    }
+  public remove(i: number) {
+    this.assertIsValidIndex(i);
+    this.assertClassInvariants();
+    const backup = this.clone() as StringArrayName;
+    this.components.splice(i, 1);
+    this.assertPostconditionAndDoBackup(
+      this.getNoComponents() == backup.getNoComponents() - 1,
+      "remove failed",
+      backup
+    );
+  }
 
-    public getNoComponents(): number {
-        throw new Error("needs implementation or deletion");
+  public concat(other: Name): void {
+    IllegalArgumentException.assertIsNotNullOrUndefined(other);
+    this.assertClassInvariants();
+    const backup = this.clone() as StringArrayName;
+    const prevLength = this.getNoComponents();
+    const otherLength = other.getNoComponents();
+    if (this.getDelimiterCharacter() != other.getDelimiterCharacter()) {
+      throw new Error("Delimiters have to match for concat to be possible.");
     }
+    for (let i = 0; i < other.getNoComponents(); i++) {
+      this.append(other.getComponent(i));
+    }
+    this.assertPostconditionAndDoBackup(
+      this.getNoComponents() == prevLength + otherLength,
+      "concat failed",
+      backup
+    );
+  }
 
-    public getComponent(i: number): string {
-        throw new Error("needs implementation or deletion");
+  protected assertPostconditionAndDoBackup(
+    condition: boolean,
+    message: string,
+    backup: StringArrayName
+  ): void {
+    if (!condition) {
+      this.components = [...backup.components];
+      this.delimiter = backup.delimiter;
+      throw new MethodFailedException(message);
     }
-
-    public setComponent(i: number, c: string) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public insert(i: number, c: string) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public append(c: string) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public remove(i: number) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public concat(other: Name): void {
-        throw new Error("needs implementation or deletion");
-    }
+    this.assertClassInvariants();
+  }
 }
