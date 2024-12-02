@@ -94,26 +94,17 @@ export class Node {
    * @param bn basename of node being searched for
    */
   public findNodes(bn: string): Set<Node> {
-    const result = new Set<Node>();
-    const traverseTree = (node: Node) => {
-      const baseName = node.getBaseName();
-      if (!(node instanceof RootNode) && baseName.length == 0) {
-        throw new ServiceFailureException(
-          "base name can not be empty",
-          new InvalidStateException("base name can not be empty")
-        );
-      }
-      if (baseName === bn) {
-        result.add(node);
-      }
-      if (node instanceof Directory) {
-        const children = node.getChildNodes();
-        for (const child of children) {
-          traverseTree(child);
-        }
-      }
-    };
-    traverseTree(this);
+    let result = new Set<Node>();
+    const baseName = this.getBaseName();
+    if (baseName.length == 0) {
+      throw new ServiceFailureException(
+        "base name can not be empty",
+        new InvalidStateException("base name can not be empty")
+      );
+    }
+    if (baseName === bn) {
+      result.add(this);
+    }
     return result;
   }
 
