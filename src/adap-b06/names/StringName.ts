@@ -44,15 +44,14 @@ export class StringName extends AbstractName {
 
   public getComponent(i: number): string {
     this.assertIsValidIndex(i);
-    this.assertClassInvariants();
     const components = this.splitEscaped(this.delimiter);
+    this.assertClassInvariants();
     return components[i];
   }
 
   public setComponent(i: number, c: string) {
     this.assertIsValidIndex(i);
     this.assertIsValidComponent(c);
-    this.assertClassInvariants();
     let newComponents = this.splitEscaped(this.delimiter);
     newComponents[i] = c;
     let newName = new StringName(
@@ -63,13 +62,13 @@ export class StringName extends AbstractName {
       newName.getComponent(i) == c,
       "setComponent failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
   public insert(i: number, c: string) {
     this.assertIsValidIndex(i);
     this.assertIsValidComponent(c);
-    this.assertClassInvariants();
     let newComponents = this.splitEscaped(this.delimiter);
     newComponents[i] = c;
     newComponents.splice(i, 0, c);
@@ -82,12 +81,12 @@ export class StringName extends AbstractName {
         newName.getNoComponents() == this.getNoComponents() + 1,
       "insert failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
   public append(c: string) {
     this.assertIsValidComponent(c);
-    this.assertClassInvariants();
     let newComponents = this.splitEscaped(this.delimiter);
     newComponents.push(c);
     let newName = new StringName(
@@ -98,12 +97,12 @@ export class StringName extends AbstractName {
       newName.getComponent(newName.getNoComponents() - 1) == c,
       "insert failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
   public remove(i: number) {
     this.assertIsValidIndex(i);
-    this.assertClassInvariants();
     let newComponents = this.splitEscaped(this.delimiter);
     newComponents.splice(i, 1);
     let newName = new StringName(
@@ -114,6 +113,7 @@ export class StringName extends AbstractName {
       newName.getNoComponents() == this.getNoComponents() - 1,
       "insert failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
@@ -122,7 +122,6 @@ export class StringName extends AbstractName {
       other != null && other != undefined,
       "other cannnot be null or undefined"
     );
-    this.assertClassInvariants();
     const prevLength = this.getNoComponents();
     const otherLength = other.getNoComponents();
     if (this.getDelimiterCharacter() != other.getDelimiterCharacter()) {
@@ -142,6 +141,7 @@ export class StringName extends AbstractName {
       newName.getNoComponents() == prevLength + otherLength,
       "concat failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
@@ -194,18 +194,5 @@ export class StringName extends AbstractName {
     this.assertIsNotEmptyName();
     this.assertIsValidDelChar(this.delimiter);
     this.assertMatchesActualLength();
-  }
-
-  protected assertPostconditionAndDoBackup(
-    condition: boolean,
-    message: string,
-    backup: StringName
-  ): void {
-    if (!condition) {
-      this.name = backup.name;
-      this.delimiter = backup.delimiter;
-      throw new MethodFailedException(message);
-    }
-    this.assertClassInvariants();
   }
 }

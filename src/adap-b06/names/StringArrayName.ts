@@ -31,7 +31,6 @@ export class StringArrayName extends AbstractName {
   public setComponent(i: number, c: string) {
     this.assertIsValidIndex(i);
     this.assertIsValidComponent(c);
-    this.assertClassInvariants();
     let newComponents = [...this.components];
     newComponents[i] = c;
     let newName = new StringArrayName(newComponents, this.delimiter);
@@ -39,23 +38,23 @@ export class StringArrayName extends AbstractName {
       newName.getComponent(i) == c,
       "setComponent failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
   public insert(i: number, c: string) {
     this.assertIsValidInsertIndex(i);
     this.assertIsValidComponent(c);
-    this.assertClassInvariants();
     let newComponents = [...this.components];
     newComponents.splice(i, 0, c);
     let newName = new StringArrayName(newComponents, this.delimiter);
     MethodFailedException.assert(newName.getComponent(i) == c, "insert failed");
+    this.assertClassInvariants();
     return newName;
   }
 
   public append(c: string) {
     this.assertIsValidComponent(c);
-    this.assertClassInvariants();
     let newComponents = [...this.components];
     newComponents.push(c);
     let newName = new StringArrayName(newComponents, this.delimiter);
@@ -63,12 +62,12 @@ export class StringArrayName extends AbstractName {
       newName.getComponent(newName.getNoComponents() - 1) === c,
       "append failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
   public remove(i: number) {
     this.assertIsValidIndex(i);
-    this.assertClassInvariants();
     let newComponents = [...this.components];
     newComponents.splice(i, 1);
     let newName = new StringArrayName(newComponents, this.delimiter);
@@ -76,6 +75,7 @@ export class StringArrayName extends AbstractName {
       newName.getNoComponents() == this.getNoComponents() - 1,
       "remove failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 
@@ -84,7 +84,6 @@ export class StringArrayName extends AbstractName {
       other != null && other != undefined,
       "other cannot be null or undefined"
     );
-    this.assertClassInvariants();
     const prevLength = this.getNoComponents();
     const otherLength = other.getNoComponents();
     if (this.getDelimiterCharacter() != other.getDelimiterCharacter()) {
@@ -101,6 +100,7 @@ export class StringArrayName extends AbstractName {
       newName.getNoComponents() == prevLength + otherLength,
       "concat failed"
     );
+    this.assertClassInvariants();
     return newName;
   }
 }
