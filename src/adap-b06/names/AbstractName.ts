@@ -29,12 +29,28 @@ export abstract class AbstractName implements Name {
       components.push(this.unescapeComponent(this.getComponent(i)));
     }
     const asStringResult = components.join(delimiter);
+    MethodFailedException.assert(
+      asStringResult != null && asStringResult != undefined,
+      "asStringResult cannot be null or undefined"
+    );
+    MethodFailedException.assert(
+      typeof asStringResult == "string",
+      "Result has to be string"
+    );
     return asStringResult;
   }
 
   public toString(): string {
     this.assertClassInvariants();
     const toStringResult = this.asDataString();
+    MethodFailedException.assert(
+      toStringResult != null && toStringResult != undefined,
+      "toStringResult cannot be null or undefined"
+    );
+    MethodFailedException.assert(
+      typeof toStringResult == "string",
+      "Result has to be string"
+    );
     return toStringResult;
   }
 
@@ -45,10 +61,22 @@ export abstract class AbstractName implements Name {
       components.push(this.getComponent(i));
     }
     const asDataStringResult = components.join(this.getDelimiterCharacter());
+    MethodFailedException.assert(
+      asDataStringResult != null && asDataStringResult != undefined,
+      "asDataStringResult cannot be null or undefined"
+    );
+    MethodFailedException.assert(
+      typeof asDataStringResult == "string",
+      "Result has to be string"
+    );
     return asDataStringResult;
   }
 
   public isEqual(other: Name): boolean {
+    IllegalArgumentException.assert(
+      other != null && other != undefined,
+      "other cannot be null or undefined"
+    );
     this.assertClassInvariants();
     return this.getHashCode() == other.getHashCode();
   }
@@ -77,27 +105,12 @@ export abstract class AbstractName implements Name {
   abstract getNoComponents(): number;
 
   abstract getComponent(i: number): string;
-  abstract setComponent(i: number, c: string): void;
+  abstract setComponent(i: number, c: string): Name;
 
-  abstract insert(i: number, c: string): void;
-  abstract append(c: string): void;
-  abstract remove(i: number): void;
-
-  public concat(other: Name): void {
-    IllegalArgumentException.assert(
-      other != null && other != undefined,
-      "other cannot be null or undefined"
-    );
-    this.assertClassInvariants();
-    const prevLength = this.getNoComponents();
-    const otherLength = other.getNoComponents();
-    if (this.getDelimiterCharacter() != other.getDelimiterCharacter()) {
-      throw new Error("Delimiters have to match for concat to be possible.");
-    }
-    for (let i = 0; i < other.getNoComponents(); i++) {
-      this.append(other.getComponent(i));
-    }
-  }
+  abstract insert(i: number, c: string): Name;
+  abstract append(c: string): Name;
+  abstract remove(i: number): Name;
+  abstract concat(other: Name): Name;
 
   protected assertIsValidDelChar(d: string) {
     let condition: boolean = d.length == 1;
@@ -130,7 +143,7 @@ export abstract class AbstractName implements Name {
   }
 
   protected assertIsValidComponent(c: String) {
-    IllegalArgumentException.assert(
+    MethodFailedException.assert(
       c != null && c != undefined,
       "c cannot be null or undefined"
     );
@@ -152,7 +165,7 @@ export abstract class AbstractName implements Name {
   }
 
   protected assertClassInvariants() {
-    //this.assertIsNotEmptyName();
+    this.assertIsNotEmptyName();
     this.assertIsValidDelChar(this.delimiter);
   }
 
