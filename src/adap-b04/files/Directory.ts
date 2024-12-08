@@ -10,13 +10,16 @@ export class Directory extends Node {
     super(bn, pn);
   }
 
-  public add(cn: Node): void {
-    IllegalArgumentException.assertIsNotNullOrUndefined(cn);
-    this.childNodes.add(cn);
-  }
+    public hasChildNode(cn: Node): boolean {
+        return this.childNodes.has(cn);
+    }
 
-  public remove(cn: Node): void {
-    IllegalArgumentException.assertIsNotNullOrUndefined(cn);
-    this.childNodes.delete(cn); // Yikes! Should have been called remove
-  }
+    public addChildNode(cn: Node): void {
+        this.childNodes.add(cn);
+    }
+
+    public removeChildNode(cn: Node): void {
+        this.childNodes.delete(cn); // Yikes! Should have been called remove
+    }
+
 }

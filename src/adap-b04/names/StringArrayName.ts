@@ -8,10 +8,13 @@ import { IllegalArgumentException } from "../common/IllegalArgumentException";
 export class StringArrayName extends AbstractName {
   protected components: string[] = [];
 
-  constructor(other: string[], delimiter?: string) {
-    super();
-    for (let i = 0; i < other.length; i++) {
-      this.assertIsValidComponent(other[i]);
+    constructor(source: string[], delimiter?: string) {
+        super();
+        throw new Error("needs implementation or deletion");
+    }
+
+    public clone(): Name {
+        throw new Error("needs implementation or deletion");
     }
     if (delimiter) {
       this.assertIsValidDelChar(delimiter);
