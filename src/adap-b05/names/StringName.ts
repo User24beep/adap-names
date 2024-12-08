@@ -9,34 +9,38 @@ export class StringName extends AbstractName {
   protected name: string = "";
   protected noComponents: number = 0;
 
-  constructor(other: string, delimiter?: string) {
-    super();
-    if (delimiter) {
-      this.assertIsValidDelChar(delimiter);
-      this.delimiter = delimiter;
+    constructor(source: string, delimiter?: string) {
+        super();
+        throw new Error("needs implementation or deletion");
     }
-    this.name = other;
-    let escaped: boolean = false;
-    this.noComponents = 1;
-    for (let i = 0; i < other.length; i++) {
-      //adds +1 to length if a delimiter is found that is not escaped
-      // . -> +1
-      // \. -> +0
-      // \\. -> +1
-      // \\\. -> +0
-      // \\\\. -> +1
-      if (escaped == false && other.charAt(i) == ESCAPE_CHARACTER) {
-        escaped = true;
-        continue;
-      }
-      if (escaped == false && other.charAt(i) == this.delimiter) {
-        this.noComponents += 1;
-        continue;
-      }
-      escaped = false;
+
+    public clone(): Name {
+        throw new Error("needs implementation or deletion");
     }
-    this.assertClassInvariants();
-  }
+
+    public asString(delimiter: string = this.delimiter): string {
+        throw new Error("needs implementation or deletion");
+    }
+
+    public asDataString(): string {
+        throw new Error("needs implementation or deletion");
+    }
+
+    public isEqual(other: Name): boolean {
+        throw new Error("needs implementation or deletion");
+    }
+
+    public getHashCode(): number {
+        throw new Error("needs implementation or deletion");
+    }
+
+    public isEmpty(): boolean {
+        throw new Error("needs implementation or deletion");
+    }
+
+    public getDelimiterCharacter(): string {
+        throw new Error("needs implementation or deletion");
+    }
 
   public getNoComponents(): number {
     return this.noComponents;

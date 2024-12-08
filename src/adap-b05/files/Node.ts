@@ -1,7 +1,3 @@
-import {
-  ExceptionType,
-  AssertionDispatcher,
-} from "../common/AssertionDispatcher";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
 import { ServiceFailureException } from "../common/ServiceFailureException";
@@ -32,24 +28,16 @@ export class Node {
     this.initialize(pn);
   }
 
-  protected initialize(pn: Directory): void {
-    this.parentNode = pn;
-    this.parentNode.add(this);
-  }
+    protected initialize(pn: Directory): void {
+        this.parentNode = pn;
+        this.parentNode.addChildNode(this);
+    }
 
-  public move(to: Directory): void {
-    IllegalArgumentException.assertIsNotNullOrUndefined(
-      to,
-      "Target directory cannot be null or undefined"
-    );
-    IllegalArgumentException.assertCondition(
-      to !== this.parentNode,
-      "Cannot move to same directory"
-    );
-    this.parentNode.remove(this);
-    to.add(this);
-    this.parentNode = to;
-  }
+    public move(to: Directory): void {
+        this.parentNode.removeChildNode(this);
+        to.addChildNode(this);
+        this.parentNode = to;
+    }
 
   public getFullName(): Name {
     IllegalArgumentException.assertCondition(
@@ -108,13 +96,4 @@ export class Node {
     return result;
   }
 
-  protected assertClassInvariants(): void {
-    const bn: string = this.doGetBaseName();
-    this.assertIsValidBaseName(bn, ExceptionType.CLASS_INVARIANT);
-  }
-
-  protected assertIsValidBaseName(bn: string, et: ExceptionType): void {
-    const condition: boolean = bn != "";
-    AssertionDispatcher.dispatch(et, condition, "invalid base name");
-  }
 }
