@@ -72,7 +72,7 @@ export class StringName extends AbstractName {
     this.assertClassInvariants();
     let newComponents = this.splitEscaped(this.delimiter);
     newComponents[i] = c;
-    newComponents = newComponents.splice(i, 0, c);
+    newComponents.splice(i, 0, c);
     let newName = new StringName(
       newComponents.join(this.delimiter),
       this.delimiter

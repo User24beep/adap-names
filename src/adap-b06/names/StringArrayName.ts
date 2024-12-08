@@ -47,7 +47,7 @@ export class StringArrayName extends AbstractName {
     this.assertIsValidComponent(c);
     this.assertClassInvariants();
     let newComponents = [...this.components];
-    newComponents = newComponents.splice(i, 0, c);
+    newComponents.splice(i, 0, c);
     let newName = new StringArrayName(newComponents, this.delimiter);
     MethodFailedException.assert(newName.getComponent(i) == c, "insert failed");
     return newName;
@@ -60,7 +60,7 @@ export class StringArrayName extends AbstractName {
     newComponents.push(c);
     let newName = new StringArrayName(newComponents, this.delimiter);
     MethodFailedException.assert(
-      newName.components[this.getNoComponents() - 1] == c,
+      newName.getComponent(newName.getNoComponents() - 1) === c,
       "append failed"
     );
     return newName;
@@ -70,7 +70,7 @@ export class StringArrayName extends AbstractName {
     this.assertIsValidIndex(i);
     this.assertClassInvariants();
     let newComponents = [...this.components];
-    newComponents = newComponents.splice(i, 1);
+    newComponents.splice(i, 1);
     let newName = new StringArrayName(newComponents, this.delimiter);
     MethodFailedException.assert(
       newName.getNoComponents() == newName.getNoComponents() - 1,
