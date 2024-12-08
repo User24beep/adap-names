@@ -73,7 +73,7 @@ export class StringArrayName extends AbstractName {
     newComponents.splice(i, 1);
     let newName = new StringArrayName(newComponents, this.delimiter);
     MethodFailedException.assert(
-      newName.getNoComponents() == newName.getNoComponents() - 1,
+      newName.getNoComponents() == this.getNoComponents() - 1,
       "remove failed"
     );
     return newName;
